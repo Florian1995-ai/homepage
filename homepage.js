@@ -1,6 +1,6 @@
 // Initialize Supabase client
-const supabaseUrl = 'https://shntgjzkuzxpjlfbgcoe.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNobnRnanprdXp4cGpsZmJnY29lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjUzMTM2MTQsImV4cCI6MjA0MDg4OTYxNH0.9zF7hydgrAaLGSIRMXieG2BUuC4y7FqQO-I8jNaV4GA';
+const supabaseUrl = 'YOUR_SUPABASE_URL';
+const supabaseKey = 'YOUR_SUPABASE_ANON_KEY';
 const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -9,12 +9,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const downloadBtn = document.getElementById('downloadBtn');
 
     loginBtn.addEventListener('click', async () => {
+        const email = prompt('Enter your email:');
+        const password = prompt('Enter your password:');
+        if (!email || !password) return;
+
         try {
-            const { data, error } = await supabase.auth.signInWithOAuth({
-                provider: 'google',
-            });
+            const { data, error } = await supabase.auth.signInWithPassword({ email, password });
             if (error) throw error;
             console.log('Logged in:', data);
+            alert('Logged in successfully!');
         } catch (error) {
             console.error('Error logging in:', error.message);
             alert('Failed to log in. Please try again.');
@@ -63,7 +66,9 @@ async function logout() {
         const { error } = await supabase.auth.signOut();
         if (error) throw error;
         console.log('Logged out successfully');
+        alert('Logged out successfully');
     } catch (error) {
         console.error('Error logging out:', error.message);
+        alert('Failed to log out. Please try again.');
     }
 }
