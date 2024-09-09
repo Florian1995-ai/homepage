@@ -1,0 +1,67 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    color: #fff;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 50px;
+}
+
+.logo {
+    height: 50px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn-login, .btn-signup {
+    background-color: #007bff;
+    color: #fff;
+    margin-left: 10px;
+}
+
+main {
+    text-align: center;
+}
+
+h1 {
+    font-size: 48px;
+    margin-bottom: 30px;
+}
+
+.btn-download {
+    background-color: #000;
+    color: #fff;
+    border: 1px solid #fff;
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+    padding: 15px 30px;
+}
+
+.chrome-logo {
+    height: 30px;
+    margin-right: 10px;
+}
+
+p {
+    margin-top: 20px;
+    font-size: 18px;
+}
