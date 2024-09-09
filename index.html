@@ -5,32 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LifeSuccess.App</title>
     <link rel="stylesheet" href="homepage.css">
-    
-    <!-- Supabase and Auth UI libraries -->
-    <script src="https://unpkg.com/@supabase/supabase-js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/@supabase/auth-ui@0.3.6/styles.css" rel="stylesheet" />
+    <script src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="https://unpkg.com/@supabase/auth-ui-react"></script>
+    <script src="https://unpkg.com/@supabase/auth-ui-shared"></script>
 </head>
 <body>
     <header>
         <img src="logo.png" alt="LifeSuccess.App Logo" class="logo">
         <nav>
-            <button id="loginBtn">Login / Sign Up</button>
+            <button id="loginBtn">Login</button>
+            <button id="signupBtn">Sign Up</button>
         </nav>
     </header>
-    
     <main>
-        <h1>Measure outcomes, track personal metrics, and win.</h1>
+        <h1>Measure outcomes, track personal metrics and win.</h1>
         <button id="downloadBtn">
             <img src="chrome.webp" alt="Chrome logo" class="chrome-logo">
             Download for Google Chrome
         </button>
         <p>Get the LifeSuccess App today</p>
     </main>
-
-    <!-- Container for Supabase Auth UI -->
     <div id="auth-container"></div>
-    
-    <!-- External JavaScript file -->
     <script src="homepage.js"></script>
 </body>
 </html>
