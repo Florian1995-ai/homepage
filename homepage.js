@@ -1,39 +1,52 @@
 // Initialize Supabase client
-const supabaseUrl = 'https://shntgjzkuzxpjlfbgcoe.supabase.co';  // Replace with your Supabase project URL
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNobnRnanprdXp4cGpsZmJnY29lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjUzMTM2MTQsImV4cCI6MjA0MDg4OTYxNH0.9zF7hydgrAaLGSIRMXieG2BUuC4y7FqQO-I8jNaV4GA';  // Replace with your Supabase anonymous key
-const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+const supabaseUrl = 'https://shntgjzkuzxpjlfbgcoe.supabase.co'
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNobnRnanprdXp4cGpsZmJnY29lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjUzMTM2MTQsImV4cCI6MjA0MDg4OTYxNH0.9zF7hydgrAaLGSIRMXieG2BUuC4y7FqQO-I8jNaV4GA'
+const supabase = supabaseClient.createClient(supabaseUrl, supabaseKey)
 
-document.addEventListener('DOMContentLoaded', () => {
-    const loginBtn = document.getElementById('loginBtn');
-    const authContainer = document.getElementById('auth-container');
+// Function to show Auth UI
+function showAuthUI() {
+    const authContainer = document.getElementById('auth-container')
+    ReactDOM.render(
+        React.createElement(supabaseAuthUiReact.Auth, {
+            supabaseClient: supabase,
+            appearance: { theme: supabaseAuthUiShared.ThemeSupa },
+            providers: ['email']
+        }),
+        authContainer
+    )
+}
 
-    // Render Supabase Auth UI when login button is clicked
-    loginBtn.addEventListener('click', async () => {
-        // Clear any existing content in the auth container
-        authContainer.innerHTML = '';
+// Event listeners for login and signup buttons
+document.getElementById('loginBtn').addEventListener('click', showAuthUI)
+document.getElementById('signupBtn').addEventListener('click', showAuthUI)
 
-        // Render the Supabase Auth UI directly in the auth-container
-        const { Auth } = supabase.auth;
+// Download button functionality
+document.getElementById('downloadBtn').addEventListener('click', () => {
+    // Replace with your Chrome Web Store URL when available
+    window.open('https://chrome.google.com/webstore', '_blank')
+})
 
-        const signInElement = Auth.authSignIn({ 
-            supabaseClient: supabase, 
-            providers: ['google', 'github'], // Add OAuth providers if needed
-            redirectTo: window.location.origin,  // Ensure correct redirect URL
-        });
+// Check if user is already logged in
+supabase.auth.onAuthStateChange((event, session) => {
+    if (event === 'SIGNED_IN') {
+        console.log('User is signed in:', session.user)
+        document.getElementById('loginBtn').textContent = 'Logout'
+        document.getElementById('loginBtn').removeEventListener('click', showAuthUI)
+        document.getElementById('loginBtn').addEventListener('click', logout)
+    } else if (event === 'SIGNED_OUT') {
+        console.log('User is signed out')
+        document.getElementById('loginBtn').textContent = 'Login'
+        document.getElementById('loginBtn').removeEventListener('click', logout)
+        document.getElementById('loginBtn').addEventListener('click', showAuthUI)
+    }
+})
 
-        // Append the Supabase Auth UI to the container
-        authContainer.appendChild(signInElement);
-    });
-
-    // Listen for auth state changes
-    supabase.auth.onAuthStateChange((event, session) => {
-        if (event === 'SIGNED_IN') {
-            console.log('User signed in:', session.user);
-            loginBtn.textContent = 'Logout';
-            loginBtn.onclick = async () => {
-                await supabase.auth.signOut();
-                loginBtn.textContent = 'Login / Sign Up';
-            };
-        }
-    });
-});
+async function logout() {
+    try {
+        const { error } = await supabase.auth.signOut()
+        if (error) throw error
+        console.log('Logged out successfully')
+    } catch (error) {
+        console.error('Error logging out:', error.message)
+    }
+}
